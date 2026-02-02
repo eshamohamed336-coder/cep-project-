@@ -26,13 +26,27 @@
                 flex-wrap: wrap;
             }
 
-            .dept-select {
-                padding: 8px 16px;
+            .dept-btn {
+                padding: 10px 24px;
+                background: rgba(255, 255, 255, 0.05);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                border-radius: 30px;
+                color: #a0a0a0;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                font-weight: 500;
+            }
+
+            .dept-btn.active {
+                background: white;
+                color: black;
+                border-color: white;
+                box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
+            }
+
+            .dept-btn:hover:not(.active) {
                 background: rgba(255, 255, 255, 0.1);
-                border: 1px solid rgba(255, 255, 255, 0.2);
-                border-radius: 20px;
                 color: white;
-                font-family: inherit;
             }
 
             /* Modal Styles */
@@ -112,18 +126,17 @@
             </div>
         </header>
 
-        <div class="dept-filter-container">
-            <label>Select Department:</label>
-            <select id="deptFilter" class="dept-select">
-                <option value="all">All Departments</option>
-                <option value="BCA">BCA</option>
-                <option value="B.Sc CS">B.Sc CS</option>
-                <option value="B.Sc IT">B.Sc IT</option>
-                <option value="B.Com">B.Com</option>
-                <option value="BBA">BBA</option>
-                <option value="VisCom">VisCom</option>
-                <option value="B.Sc Physics">B.Sc Physics</option>
-            </select>
+        <div class="dept-filter-container reveal">
+            <span style="color: #888; margin-right: 0.5rem; font-weight: 600;">Filter by Dept:</span>
+            <div id="deptButtons" style="display: flex; gap: 0.8rem; flex-wrap: wrap;">
+                <button class="dept-btn active" data-dept="BCA">BCA</button>
+                <button class="dept-btn" data-dept="B.Sc CS">B.Sc CS</button>
+                <button class="dept-btn" data-dept="B.Sc IT">B.Sc IT</button>
+                <button class="dept-btn" data-dept="B.Com">B.Com</button>
+                <button class="dept-btn" data-dept="BBA">BBA</button>
+                <button class="dept-btn" data-dept="VisCom">VisCom</button>
+                <button class="dept-btn" data-dept="B.Sc Physics">B.Sc Physics</button>
+            </div>
         </div>
 
         <section id="events" class="section">
@@ -159,10 +172,10 @@
         <script src="static/js/eventManager.js"></script>
         <script>
             const grid = document.getElementById('eventsGrid');
-            const deptFilter = document.getElementById('deptFilter');
+            const deptBtns = document.querySelectorAll('.dept-btn');
             const filterBtns = document.querySelectorAll('.filter-btn');
             let currentCategory = 'all';
-            let currentDept = 'all';
+            let currentDept = 'BCA';
 
             // Initial Load
             async function renderEvents() {
@@ -211,9 +224,13 @@
             }
 
             // Event Listeners for Filters
-            deptFilter.addEventListener('change', (e) => {
-                currentDept = e.target.value;
-                renderEvents();
+            deptBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    deptBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentDept = btn.getAttribute('data-dept');
+                    renderEvents();
+                });
             });
 
             filterBtns.forEach(btn => {
