@@ -241,18 +241,32 @@
                 e.preventDefault();
                 const name = document.getElementById('regName').value;
                 const roll = document.getElementById('regRoll').value;
+                const submitBtn = e.target.querySelector('button');
+                const originalBtnText = submitBtn.innerText;
 
-                await EventManager.registerStudent(name, roll, currentEventId);
+                try {
+                    submitBtn.innerText = 'Registering...';
+                    submitBtn.disabled = true;
 
-                alert('Registration Successful! Information has been recorded.');
+                    await EventManager.registerStudent(name, roll, currentEventId);
 
-                // Redirect to WhatsApp
-                const whatsappNumber = "918056823617";
-                const message = encodeURIComponent(`Hi, I am ${name} (Roll: ${roll}). I just registered for the event: ${document.getElementById('regEventTitle').innerText}.`);
-                window.location.href = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${message}`;
+                    submitBtn.innerText = 'Redirecting to WhatsApp...';
+                    submitBtn.style.background = '#25D366'; // WhatsApp Green
 
-                closeModal();
-                document.getElementById('regForm').reset();
+                    // Redirect to WhatsApp after a small delay
+                    setTimeout(() => {
+                        const whatsappNumber = "918056823617";
+                        const eventTitle = document.getElementById('regEventTitle').innerText;
+                        const message = encodeURIComponent(`Hi, I am ${name} (Roll: ${roll}). I just registered for the event: ${eventTitle}.`);
+                        window.location.href = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${message}`;
+                    }, 800);
+
+                } catch (error) {
+                    console.error(error);
+                    alert('Something went wrong. Please try again.');
+                    submitBtn.innerText = originalBtnText;
+                    submitBtn.disabled = false;
+                }
             });
 
             // Init
