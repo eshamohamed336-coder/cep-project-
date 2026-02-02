@@ -249,7 +249,7 @@
                 // Redirect to WhatsApp
                 const whatsappNumber = "918056823617";
                 const message = encodeURIComponent(`Hi, I am ${name} (Roll: ${roll}). I just registered for the event: ${document.getElementById('regEventTitle').innerText}.`);
-                window.open(`https://wa.me/${whatsappNumber}?text=${message}`, '_top');
+                window.location.href = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${message}`;
 
                 closeModal();
                 document.getElementById('regForm').reset();
