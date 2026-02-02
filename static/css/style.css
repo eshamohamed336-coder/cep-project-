@@ -7,8 +7,8 @@
     --primary-gradient: linear-gradient(135deg, #7b2cbf, #f72585);
     --secondary-gradient: linear-gradient(135deg, #4cc9f0, #4361ee);
     --accent-glow: rgba(123, 44, 191, 0.5);
-    --font-heading: 'Outfit', sans-serif;
-    --font-body: 'Space Grotesk', sans-serif;
+    --font-heading: 'Plus Jakarta Sans', sans-serif;
+    --font-body: 'Inter', sans-serif;
     --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     --animation-speed: 0.6s;
 }
@@ -814,14 +814,12 @@ ul {
     }
 
     #about,
-    #team,
     #contact {
         padding: 2rem 5%;
         margin-top: 2rem !important;
     }
 
     #about h2,
-    #team h2,
     #contact h2 {
         font-size: 1.8rem;
     }
@@ -855,5 +853,4 @@ ul {
 .footer-content {
     flex-direction: column;
     gap: 2rem;
-}
 }

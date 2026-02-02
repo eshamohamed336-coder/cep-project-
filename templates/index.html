@@ -6,11 +6,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>College Events | Welcome</title>
         <!-- Google Fonts -->
-        <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@700;800&display=swap"
+            rel="stylesheet">
         <link rel="stylesheet" href="/static/css/style.css">
         <style>
             .landing-container {
-                height: 100vh;
+                min-height: 100vh;
                 display: flex;
                 flex-direction: column;
                 align-items: center;
@@ -19,7 +21,7 @@
                 text-align: center;
                 padding: 2rem;
                 position: relative;
-                overflow: hidden;
+                overflow-x: hidden;
             }
 
             #bgVideo {
@@ -150,29 +152,6 @@
                 </p>
             </section>
 
-            <!-- Project Team Section -->
-            <section id="team" style="margin-top: 5rem; width: 100%;">
-                <h2 class="reveal" style="font-size: 2.2rem; margin-bottom: 2rem;">Developed <span
-                        class="gradient-text">By</span></h2>
-                <div class="stagger-container"
-                    style="display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap;">
-                    <div
-                        style="background: rgba(255,255,255,0.03); padding: 1.5rem; border-radius: 15px; border: 1px solid rgba(255,255,255,0.05); width: 220px;">
-                        <h3 style="color: #f72585;">Esha Mohamed</h3>
-                        <p style="font-size: 0.9rem; color: #888;">Lead Developer</p>
-                    </div>
-                    <div
-                        style="background: rgba(255,255,255,0.03); padding: 1.5rem; border-radius: 15px; border: 1px solid rgba(255,255,255,0.05); width: 220px;">
-                        <h3 style="color: #4cc9f0;">Mohamed Hakim</h3>
-                        <p style="font-size: 0.9rem; color: #888;">UI/UX Designer</p>
-                    </div>
-                    <div
-                        style="background: rgba(255,255,255,0.03); padding: 1.5rem; border-radius: 15px; border: 1px solid rgba(255,255,255,0.05); width: 220px;">
-                        <h3 style="color: #4361ee;">Mohamed Ashik</h3>
-                        <p style="font-size: 0.9rem; color: #888;">Backend Architect</p>
-                    </div>
-                </div>
-            </section>
 
             <!-- Contact Us Section -->
             <section id="contact" class="reveal"
@@ -194,7 +173,41 @@
                     </div>
                 </div>
             </section>
+
         </div>
+
+        <!-- Footer Section -->
+        <footer class="footer" style="width: 100%;">
+            <div class="footer-content"
+                style="display: flex; justify-content: space-between; padding: 4rem 10% 2rem; background: #000; border-top: 1px solid rgba(255,255,255,0.1);">
+                <div class="footer-brand">
+                    <h2>College <span class="highlight">Events</span></h2>
+                    <p style="color: #a0a0a0; max-width: 300px;">Making campus life more vibrant, one event at a time.
+                    </p>
+                </div>
+                <div class="footer-links">
+                    <h3 style="margin-bottom: 1.5rem;">Connect With Us</h3>
+                    <div class="social-links" style="display: flex; gap: 1rem;">
+                        <a href="https://github.com/eshamohamed336-coder/cep-project-" target="_blank" title="GitHub"
+                            style="width: 40px; height: 40px; border-radius: 50%; background: rgba(255, 255, 255, 0.1); display: flex; align-items: center; justify-content: center; transition: all 0.4s; color: white; text-decoration: none;">
+                            <ion-icon name="logo-github" style="font-size: 1.5rem;"></ion-icon>
+                        </a>
+                        <a href="#" title="LinkedIn"
+                            style="width: 40px; height: 40px; border-radius: 50%; background: rgba(255, 255, 255, 0.1); display: flex; align-items: center; justify-content: center; transition: all 0.4s; color: white; text-decoration: none;">
+                            <ion-icon name="logo-linkedin" style="font-size: 1.5rem;"></ion-icon>
+                        </a>
+                        <a href="#" title="Twitter"
+                            style="width: 40px; height: 40px; border-radius: 50%; background: rgba(255, 255, 255, 0.1); display: flex; align-items: center; justify-content: center; transition: all 0.4s; color: white; text-decoration: none;">
+                            <ion-icon name="logo-twitter" style="font-size: 1.5rem;"></ion-icon>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom"
+                style="text-align: center; border-top: 1px solid rgba(255,255,255,0.1); padding: 2rem; color: #a0a0a0; font-size: 0.9rem; background: #000;">
+                <p>&copy; 2026 College Events. All rights reserved.</p>
+            </div>
+        </footer>
     </body>
 
 </html>
