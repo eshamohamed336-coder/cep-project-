@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>College Events | Staff Portal</title>
+        <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="static/css/style.css">
+        <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+        <script src="static/js/animations.js" defer></script>
+        <style>
+            .staff-container {
+                padding: 100px 10%;
+                max-width: 800px;
+                margin: 0 auto;
+            }
+
+            .form-card {
+                background: rgba(255, 255, 255, 0.05);
+                padding: 2rem;
+                border-radius: 20px;
+                border: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            .form-group {
+                margin-bottom: 1.5rem;
+            }
+
+            label {
+                display: block;
+                margin-bottom: 0.5rem;
+                color: #ddd;
+                font-weight: 500;
+            }
+
+            input,
+            select,
+            textarea {
+                width: 100%;
+                padding: 12px;
+                background: rgba(0, 0, 0, 0.3);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                border-radius: 8px;
+                color: white;
+                font-family: inherit;
+            }
+
+            input:focus,
+            select:focus,
+            textarea:focus {
+                outline: none;
+                border-color: #f72585;
+            }
+
+            .success-msg {
+                background: rgba(0, 255, 0, 0.2);
+                border: 1px solid #00ff00;
+                color: #fff;
+                padding: 1rem;
+                border-radius: 8px;
+                margin-bottom: 1rem;
+                display: none;
+            }
+
+            .navbar {
+                /* Reuse navbar style but override position for this page if needed */
+                position: fixed;
+            }
+        </style>
+    </head>
+
+    <body>
+        <nav class="navbar">
+            <div class="logo">College <span class="highlight">Events</span> <span
+                    style="font-size: 0.8rem; color: #aaa; margin-left: 10px;">STAFF PORTAL</span></div>
+            <ul class="nav-links">
+                <li><a href="index.html">Logout</a></li>
+            </ul>
+        </nav>
+
+        <div class="staff-container reveal">
+            <h1 style="margin-bottom: 2rem;">Post New <span class="gradient-text">Event</span></h1>
+
+            <div id="successMsg" class="success-msg">
+                Event Posted Successfully! It is now visible on the Student Page.
+            </div>
+
+            <form id="eventForm" class="form-card">
+                <div class="form-group">
+                    <label>Event Title</label>
+                    <input type="text" id="title" required placeholder="e.g. AI Symposium 2026">
+                </div>
+
+                <div class="form-group">
+                    <label>Date</label>
+                    <input type="text" id="date" required placeholder="e.g. Feb 25, 2026">
+                </div>
+
+                <div class="form-group">
+                    <label>Location</label>
+                    <input type="text" id="location" required placeholder="e.g. Seminar Hall">
+                </div>
+
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="description" rows="4" required
+                        placeholder="Brief details about the event..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Category</label>
+                    <select id="category" required>
+                        <option value="technical">Technical</option>
+                        <option value="non-technical">Non-Technical</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Department</label>
+                    <select id="department" required>
+                        <option value="BCA">BCA</option>
+                        <option value="B.Sc CS">B.Sc Computer Science</option>
+                        <option value="B.Sc IT">B.Sc IT</option>
+                        <option value="B.Com">B.Com</option>
+                        <option value="BBA">BBA</option>
+                        <option value="VisCom">VisCom</option>
+                        <option value="B.Sc Math">B.Sc Maths</option>
+                        <option value="B.Sc Physics">B.Sc Physics</option>
+                        <option value="All">All Departments</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Event Image (Upload Directly)</label>
+                    <input type="file" id="imageInput" accept="image/*">
+                    <p style="font-size: 0.8rem; color: #888; margin-top: 5px;">This image will be displayed on the
+                        student page.</p>
+                </div>
+
+                <div class="form-group">
+                    <label>Banner Style</label>
+                    <select id="bgClass">
+                        <option value="tech-bg">Purple Gradient (Tech)</option>
+                        <option value="robotics-bg">Blue/Yellow Gradient (Robotics)</option>
+                        <option value="cultural-bg">Red Gradient (Cultural)</option>
+                        <option value="sports-bg">Teal Gradient (Sports)</option>
+                        <option value="bg-music">Blue Gradient (Music)</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn-primary" style="width: 100%;">Post Event</button>
+            </form>
+        </div>
+
+        <!-- Logic -->
+        <script src="static/js/eventManager.js"></script>
+        <script>
+            document.getElementById('eventForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                const imageFile = document.getElementById('imageInput').files[0];
+                let imageData = null;
+
+                if (imageFile) {
+                    imageData = await new Promise((resolve) => {
+                        const reader = new FileReader();
+                        reader.onloadend = () => resolve(reader.result);
+                        reader.readAsDataURL(imageFile);
+                    });
+                }
+
+                const newEvent = {
+                    id: Date.now().toString(),
+                    title: document.getElementById('title').value,
+                    date: document.getElementById('date').value,
+                    location: document.getElementById('location').value,
+                    description: document.getElementById('description').value,
+                    category: document.getElementById('category').value,
+                    department: document.getElementById('department').value,
+                    bgClass: document.getElementById('bgClass').value,
+                    image: imageData
+                };
+
+                await EventManager.addEvent(newEvent);
+
+                // Show success
+                const msg = document.getElementById('successMsg');
+                msg.style.display = 'block';
+
+                // Reset form
+                document.getElementById('eventForm').reset();
+
+                // Hide success message after 3 seconds
+                setTimeout(() => {
+                    msg.style.display = 'none';
+                }, 3000);
+            });
+        </script>
+    </body>
+
+</html>

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>College Events | Welcome</title>
+        <!-- Google Fonts -->
+        <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="static/css/style.css">
+        <style>
+            .landing-container {
+                height: 100vh;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                background: radial-gradient(circle at center, #1a0b2e 0%, #000 100%);
+                text-align: center;
+                padding: 2rem;
+                position: relative;
+                overflow: hidden;
+            }
+
+            #bgVideo {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                min-width: 100%;
+                min-height: 100%;
+                width: auto;
+                height: auto;
+                z-index: -2;
+                transform: translate(-50%, -50%);
+                object-fit: cover;
+                opacity: 0.4;
+            }
+
+            .video-overlay {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(26, 11, 46, 0.8));
+                z-index: -1;
+            }
+
+            .bounce-click {
+                animation: bounce 0.6s cubic-bezier(0.36, 0, 0.66, -0.56);
+            }
+
+            @keyframes bounce {
+
+                0%,
+                100% {
+                    transform: scale(1);
+                }
+
+                50% {
+                    transform: scale(0.95) translateY(10px);
+                }
+            }
+
+            .role-cards {
+                display: flex;
+                gap: 2rem;
+                margin-top: 3rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .role-card {
+                background: rgba(255, 255, 255, 0.05);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                padding: 3rem;
+                border-radius: 20px;
+                width: 300px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                text-decoration: none;
+                color: white;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .role-card:hover {
+                background: rgba(255, 255, 255, 0.1);
+                transform: translateY(-10px);
+                border-color: #f72585;
+                box-shadow: 0 0 30px rgba(247, 37, 133, 0.2);
+            }
+
+            .role-card h2 {
+                margin: 1.5rem 0 0.5rem;
+                font-size: 2rem;
+            }
+
+            .role-card p {
+                color: #ccc;
+            }
+
+            .icon-large {
+                font-size: 4rem;
+                background: linear-gradient(135deg, #4cc9f0, #4361ee);
+                -webkit-background-clip: text;
+                background-clip: text;
+                -webkit-text-fill-color: transparent;
+            }
+        </style>
+        <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+        <script src="static/js/animations.js" defer></script>
+    </head>
+
+    <body>
+        <div class="landing-container" id="mainHero">
+            <video autoplay muted loop playsinline id="bgVideo">
+                <source
+                    src="https://assets.mixkit.co/videos/preview/mixkit-party-crowd-at-a-concert-silhouettes-4001-large.mp4"
+                    type="video/mp4">
+            </video>
+            <div class="video-overlay"></div>
+            <h1 class="reveal glow-text" style="font-size: 3.5rem;">Welcome to <span class="highlight">College
+                    Events</span></h1>
+            <p class="reveal" style="font-size: 1.2rem; color: #aaa; margin-top: 1rem; transition-delay: 0.2s;">Select
+                your role to continue</p>
+
+            <div class="role-cards stagger-container">
+                <a href="student.html" class="role-card shimmer">
+                    <ion-icon name="school-outline" class="icon-large"></ion-icon>
+                    <h2>Student</h2>
+                    <p>View events, register, and explore.</p>
+                </a>
+
+                <a href="staff.html" class="role-card shimmer">
+                    <ion-icon name="id-card-outline" class="icon-large"></ion-icon>
+                    <h2>Staff</h2>
+                    <p>Post events and manage activities.</p>
+                </a>
+            </div>
+
+            <!-- About Us Section -->
+            <section id="about" class="reveal" style="margin-top: 6rem; max-width: 800px;">
+                <h2 style="font-size: 2.5rem; margin-bottom: 1.5rem;">About <span class="highlight">Us</span></h2>
+                <p style="color: #ccc; line-height: 1.8; font-size: 1.1rem;">
+                    College Events is the ultimate destination for college spirit and engagement.
+                    Our platform bridges the gap between organizers and students, ensuring
+                    that every technical innovation and cultural celebration gets the spotlight it deserves.
+                </p>
+            </section>
+
+            <!-- Project Team Section -->
+            <section id="team" style="margin-top: 5rem; width: 100%;">
+                <h2 class="reveal" style="font-size: 2.2rem; margin-bottom: 2rem;">Developed <span
+                        class="gradient-text">By</span></h2>
+                <div class="stagger-container"
+                    style="display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap;">
+                    <div
+                        style="background: rgba(255,255,255,0.03); padding: 1.5rem; border-radius: 15px; border: 1px solid rgba(255,255,255,0.05); width: 220px;">
+                        <h3 style="color: #f72585;">Esha Mohamed</h3>
+                        <p style="font-size: 0.9rem; color: #888;">Lead Developer</p>
+                    </div>
+                    <div
+                        style="background: rgba(255,255,255,0.03); padding: 1.5rem; border-radius: 15px; border: 1px solid rgba(255,255,255,0.05); width: 220px;">
+                        <h3 style="color: #4cc9f0;">Mohamed Hakim</h3>
+                        <p style="font-size: 0.9rem; color: #888;">UI/UX Designer</p>
+                    </div>
+                    <div
+                        style="background: rgba(255,255,255,0.03); padding: 1.5rem; border-radius: 15px; border: 1px solid rgba(255,255,255,0.05); width: 220px;">
+                        <h3 style="color: #4361ee;">Mohamed Ashik</h3>
+                        <p style="font-size: 0.9rem; color: #888;">Backend Architect</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Contact Us Section -->
+            <section id="contact" class="reveal"
+                style="margin-top: 5rem; margin-bottom: 5rem; background: rgba(255,255,255,0.05); padding: 3rem; border-radius: 25px; width: 100%; max-width: 900px; border: 1px solid rgba(255,255,255,0.1);">
+                <h2 style="margin-bottom: 1rem;">Contact <span class="highlight">Us</span></h2>
+                <p style="color: #aaa; margin-bottom: 2rem;">Have questions or want to host an event? Get in touch!</p>
+                <div style="display: flex; justify-content: center; gap: 3rem; flex-wrap: wrap;">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <ion-icon name="mail-outline" style="font-size: 1.5rem; color: #f72585;"></ion-icon>
+                        <span>contact@collegeevents.edu</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <ion-icon name="call-outline" style="font-size: 1.5rem; color: #4cc9f0;"></ion-icon>
+                        <span>+91 98765 43210</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <ion-icon name="location-outline" style="font-size: 1.5rem; color: #4361ee;"></ion-icon>
+                        <span>College Campus, Block A</span>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </body>
+
+</html>

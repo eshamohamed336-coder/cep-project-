@@ -1,57 +1,58 @@
 /**
- * EventManager - Handles data persistence using Flask API
+ * EventManager - Handles data persistence using localStorage for Static GitHub Pages deployment.
  */
 
 const EventManager = {
-    // Get all events from the Flask API
+    DATA_KEY: 'college_events_data',
+    DATA_FILE: 'data.json',
+
+    // Initialize data from data.json if localStorage is empty
+    async init() {
+        let data = localStorage.getItem(this.DATA_KEY);
+        if (!data) {
+            try {
+                const response = await fetch(this.DATA_FILE);
+                if (!response.ok) throw new Error('Could not load data.json');
+                const jsonData = await response.json();
+                localStorage.setItem(this.DATA_KEY, JSON.stringify(jsonData));
+            } catch (error) {
+                console.error('Initialization error:', error);
+                // Fallback empty structure
+                localStorage.setItem(this.DATA_KEY, JSON.stringify({ events: [], registrations: [] }));
+            }
+        }
+    },
+
+    // Get all events
     async getEvents() {
-        try {
-            const response = await fetch('/api/events');
-            if (!response.ok) throw new Error('Network response was not ok');
-            return await response.json();
-        } catch (error) {
-            console.error('Error fetching events:', error);
-            return [];
-        }
+        await this.init();
+        const data = JSON.parse(localStorage.getItem(this.DATA_KEY));
+        return data.events || [];
     },
 
-    // Add a new event via the Flask API
+    // Add a new event
     async addEvent(event) {
-        try {
-            const response = await fetch('/api/events', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(event)
-            });
-            return await response.json();
-        } catch (error) {
-            console.error('Error adding event:', error);
-        }
+        await this.init();
+        const data = JSON.parse(localStorage.getItem(this.DATA_KEY));
+        data.events.push(event);
+        localStorage.setItem(this.DATA_KEY, JSON.stringify(data));
+        return { status: "success" };
     },
 
-    // Register Student via the Flask API
+    // Register Student
     async registerStudent(studentName, rollNo, eventId) {
+        await this.init();
+        const data = JSON.parse(localStorage.getItem(this.DATA_KEY));
         const regData = {
             studentName,
             rollNo,
             eventId,
             timestamp: new Date().toISOString()
         };
-        try {
-            const response = await fetch('/api/register', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(regData)
-            });
-            console.log(`Registered ${studentName} for Event ID ${eventId} via API`);
-            return await response.json();
-        } catch (error) {
-            console.error('Error registering student:', error);
-        }
+        data.registrations.push(regData);
+        localStorage.setItem(this.DATA_KEY, JSON.stringify(data));
+        console.log(`Registered ${studentName} for Event ID ${eventId} locally`);
+        return { status: "success" };
     }
 };
 
