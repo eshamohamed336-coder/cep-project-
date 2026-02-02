@@ -92,9 +92,15 @@
                     <input type="text" id="title" required placeholder="e.g. AI Symposium 2026">
                 </div>
 
-                <div class="form-group">
-                    <label>Date</label>
-                    <input type="text" id="date" required placeholder="e.g. Feb 25, 2026">
+                <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem;">
+                    <div class="form-group" style="flex: 1; margin-bottom: 0;">
+                        <label>Start Date</label>
+                        <input type="date" id="startDate" required>
+                    </div>
+                    <div class="form-group" style="flex: 1; margin-bottom: 0;">
+                        <label>End Date</label>
+                        <input type="date" id="endDate" required>
+                    </div>
                 </div>
 
                 <div class="form-group">
@@ -173,7 +179,8 @@
                 const newEvent = {
                     id: Date.now().toString(),
                     title: document.getElementById('title').value,
-                    date: document.getElementById('date').value,
+                    startDate: document.getElementById('startDate').value,
+                    endDate: document.getElementById('endDate').value,
                     location: document.getElementById('location').value,
                     description: document.getElementById('description').value,
                     category: document.getElementById('category').value,

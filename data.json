@@ -9,7 +9,8 @@
             "category": "technical",
             "department": "BCA",
             "bgClass": "tech-bg",
-            "image": null
+            "image": null,
+            "timestamp": "2026-02-02T19:20:48"
         },
         {
             "id": "2",
@@ -20,7 +21,8 @@
             "category": "technical",
             "department": "B.Sc IT",
             "bgClass": "robotics-bg",
-            "image": null
+            "image": null,
+            "timestamp": "2026-02-02T19:20:48"
         },
         {
             "id": "3",
@@ -31,7 +33,8 @@
             "category": "technical",
             "department": "B.Sc CS",
             "bgClass": "workshop-bg",
-            "image": null
+            "image": null,
+            "timestamp": "2026-02-02T19:20:48"
         },
         {
             "id": "4",
@@ -42,7 +45,8 @@
             "category": "technical",
             "department": "B.Sc IT",
             "bgClass": "tech-bg",
-            "image": null
+            "image": null,
+            "timestamp": "2026-02-02T19:20:48"
         },
         {
             "id": "5",
@@ -53,7 +57,8 @@
             "category": "non-technical",
             "department": "VisCom",
             "bgClass": "cultural-bg",
-            "image": null
+            "image": null,
+            "timestamp": "2026-02-02T19:20:48"
         },
         {
             "id": "6",
@@ -64,7 +69,8 @@
             "category": "non-technical",
             "department": "BBA",
             "bgClass": "sports-bg",
-            "image": null
+            "image": null,
+            "timestamp": "2026-02-02T19:20:48"
         },
         {
             "id": "7",
@@ -75,7 +81,8 @@
             "category": "non-technical",
             "department": "B.Com",
             "bgClass": "gaming-bg",
-            "image": null
+            "image": null,
+            "timestamp": "2026-02-02T19:20:48"
         },
         {
             "id": "8",
@@ -86,10 +93,9 @@
             "category": "non-technical",
             "department": "VisCom",
             "bgClass": "cultural-bg",
-            "image": null
+            "image": null,
+            "timestamp": "2026-02-02T19:20:48"
         }
-       
-        
     ],
     "registrations": [
         {

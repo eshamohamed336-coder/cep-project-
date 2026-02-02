@@ -190,12 +190,14 @@
                     const coverStyle = e.image ? `background-image: url(${e.image}); background-size: cover; background-position: center;` : '';
                     const coverClass = e.image ? '' : (e.bgClass || 'tech-bg');
 
+                    const displayDate = e.startDate && e.endDate ? `${e.startDate} to ${e.endDate}` : (e.date || 'TBA');
+
                     card.innerHTML = `
                     <div class="card-image ${coverClass}" style="${coverStyle}">
                         <span class="category-tag">${e.department}</span>
                     </div>
                     <div class="card-content">
-                        <div class="date"><ion-icon name="calendar-outline"></ion-icon> ${e.date}</div>
+                        <div class="date"><ion-icon name="calendar-outline"></ion-icon> ${displayDate}</div>
                         <h3>${e.title}</h3>
                         <p>${e.description}</p>
                         <div class="card-footer">

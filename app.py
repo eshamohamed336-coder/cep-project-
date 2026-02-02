@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, jsonify
 import json
 import os
+from datetime import datetime, timedelta
 
 app = Flask(__name__)
 
@@ -18,7 +19,8 @@ seed_data = {
             "category": "technical",
             "department": "BCA",
             "bgClass": "tech-bg",
-            "image": None
+            "image": None,
+            "timestamp": datetime.now().isoformat()
         },
         {
             "id": "2",
@@ -29,7 +31,8 @@ seed_data = {
             "category": "technical",
             "department": "B.Sc IT",
             "bgClass": "robotics-bg",
-            "image": None
+            "image": None,
+            "timestamp": datetime.now().isoformat()
         },
         {
             "id": "3",
@@ -40,7 +43,8 @@ seed_data = {
             "category": "technical",
             "department": "B.Sc CS",
             "bgClass": "workshop-bg",
-            "image": None
+            "image": None,
+            "timestamp": datetime.now().isoformat()
         },
         {
             "id": "4",
@@ -51,7 +55,8 @@ seed_data = {
             "category": "technical",
             "department": "B.Sc IT",
             "bgClass": "tech-bg",
-            "image": None
+            "image": None,
+            "timestamp": datetime.now().isoformat()
         },
         {
              "id": "5",
@@ -62,7 +67,8 @@ seed_data = {
              "category": "non-technical",
              "department": "VisCom",
              "bgClass": "cultural-bg",
-             "image": None
+             "image": None,
+             "timestamp": datetime.now().isoformat()
         },
         {
              "id": "6",
@@ -73,7 +79,8 @@ seed_data = {
              "category": "non-technical",
              "department": "BBA",
              "bgClass": "sports-bg",
-             "image": None
+             "image": None,
+             "timestamp": datetime.now().isoformat()
         },
         {
              "id": "7",
@@ -84,7 +91,8 @@ seed_data = {
              "category": "non-technical",
              "department": "B.Com",
              "bgClass": "gaming-bg",
-             "image": None
+             "image": None,
+             "timestamp": datetime.now().isoformat()
         },
         {
              "id": "8",
@@ -95,11 +103,41 @@ seed_data = {
              "category": "non-technical",
              "department": "VisCom",
              "bgClass": "cultural-bg",
-             "image": None
+             "image": None,
+             "timestamp": datetime.now().isoformat()
         }
     ],
     "registrations": []
 }
+
+def cleanup_old_data(data):
+    """Delete entries older than 2 weeks."""
+    now = datetime.now()
+    two_weeks_ago = now - timedelta(days=14)
+    
+    # Helper to parse timestamp
+    def is_old(entry_timestamp):
+        if not entry_timestamp:
+            return False
+        try:
+            # Handle both ISO formats (with and without Z)
+            ts_str = entry_timestamp.replace('Z', '+00:00')
+            ts = datetime.fromisoformat(ts_str)
+            # If ts is naive and now is naive, just compare. if one is aware, we need to handle it.
+            # datetime.now() is naive. fromisoformat might be aware if it has +00:00.
+            if ts.tzinfo is not None:
+                ts = ts.replace(tzinfo=None) # Keep it simple for this local app
+            return ts < two_weeks_ago
+        except:
+            return False
+
+    # Cleanup events
+    data['events'] = [e for e in data.get('events', []) if not is_old(e.get('timestamp'))]
+    
+    # Cleanup registrations
+    data['registrations'] = [r for r in data.get('registrations', []) if not is_old(r.get('timestamp'))]
+    
+    return data
 
 def load_data():
     if not os.path.exists(DATA_FILE):
@@ -107,7 +145,13 @@ def load_data():
             json.dump(seed_data, f, indent=4)
         return seed_data
     with open(DATA_FILE, 'r') as f:
-        return json.load(f)
+        data = json.load(f)
+    
+    # Perform cleanup every time data is loaded
+    cleaned_data = cleanup_old_data(data)
+    if cleaned_data != data:
+        save_data(cleaned_data)
+    return cleaned_data
 
 def save_data(data):
     with open(DATA_FILE, 'w') as f:
@@ -133,6 +177,8 @@ def get_events():
 @app.route('/api/events', methods=['POST'])
 def add_event():
     new_event = request.json
+    if 'timestamp' not in new_event:
+        new_event['timestamp'] = datetime.now().isoformat()
     data = load_data()
     data['events'].append(new_event)
     save_data(data)
@@ -141,6 +187,8 @@ def add_event():
 @app.route('/api/register', methods=['POST'])
 def register_student():
     reg_info = request.json
+    if 'timestamp' not in reg_info:
+        reg_info['timestamp'] = datetime.now().isoformat()
     data = load_data()
     data['registrations'].append(reg_info)
     save_data(data)
