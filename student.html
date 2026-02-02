@@ -247,9 +247,9 @@
                 alert('Registration Successful! Information has been recorded.');
 
                 // Redirect to WhatsApp
-                const whatsappNumber = "8056823617";
+                const whatsappNumber = "918056823617";
                 const message = encodeURIComponent(`Hi, I am ${name} (Roll: ${roll}). I just registered for the event: ${document.getElementById('regEventTitle').innerText}.`);
-                window.open(`https://wa.me/${whatsappNumber}?text=${message}`, '_blank');
+                window.open(`https://wa.me/${whatsappNumber}?text=${message}`, '_top');
 
                 closeModal();
                 document.getElementById('regForm').reset();
