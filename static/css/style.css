@@ -22,9 +22,9 @@
 }
 
 .reveal.active {
-    opacity: 1;
-    transform: translateY(0);
-    visibility: visible;
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+    visibility: visible !important;
 }
 
 /* Reveal Variations */
@@ -782,49 +782,78 @@ ul {
         display: none;
     }
 
-    /* Mobile menu simplified for now */
     .hamburger {
         display: block;
+    }
+
+    .landing-container {
+        height: auto !important;
+        min-height: 100vh;
+        padding: 120px 5% 50px;
     }
 
     .hero {
         flex-direction: column-reverse;
         text-align: center;
         padding-top: 100px;
-        /* Space for nav */
     }
 
     .hero h1 {
-        font-size: 3rem;
+        font-size: 2.5rem;
     }
 
-    .stats {
-        justify-content: center;
-    }
-
-    .hero-buttons {
-        display: flex;
+    .role-cards {
         flex-direction: column;
-        gap: 1rem;
         align-items: center;
-    }
-
-    .btn-secondary {
-        margin-left: 0;
-    }
-
-    .hero-visual {
         width: 100%;
-        height: 300px;
     }
 
-    .section-header {
-        flex-direction: column;
-        align-items: flex-start;
+    .role-card {
+        width: 100%;
+        max-width: 300px;
     }
 
-    .footer-content {
-        flex-direction: column;
-        gap: 2rem;
+    #about,
+    #team,
+    #contact {
+        padding: 2rem 5%;
+        margin-top: 2rem !important;
     }
+
+    #about h2,
+    #team h2,
+    #contact h2 {
+        font-size: 1.8rem;
+    }
+}
+
+.stats {
+    justify-content: center;
+}
+
+.hero-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+}
+
+.btn-secondary {
+    margin-left: 0;
+}
+
+.hero-visual {
+    width: 100%;
+    height: 300px;
+}
+
+.section-header {
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.footer-content {
+    flex-direction: column;
+    gap: 2rem;
+}
 }
