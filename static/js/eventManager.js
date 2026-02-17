@@ -95,11 +95,14 @@ const EventManager = {
     },
 
     // Register Student
-    async registerStudent(studentName, rollNo, eventId) {
+    async registerStudent(studentName, rollNo, eventId, regNo, classSection, department) {
         const regData = {
             studentName,
             rollNo,
             eventId,
+            regNo,
+            classSection,
+            department,
             timestamp: new Date().toISOString()
         };
 

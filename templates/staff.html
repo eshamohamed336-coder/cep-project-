@@ -130,7 +130,7 @@
                 <div class="logo">College <span class="highlight">Events</span> <span
                         style="font-size: 0.8rem; color: #aaa; margin-left: 10px;">STAFF PORTAL</span></div>
                 <ul class="nav-links">
-                    <li><a href="/">Logout</a></li>
+                    <li><a href="#" onclick="logout()">Logout</a></li>
                 </ul>
             </nav>
 
@@ -277,6 +277,11 @@
                     error.style.display = 'block';
                     document.getElementById('passkeyInput').value = '';
                 }
+            }
+
+            function logout() {
+                sessionStorage.removeItem('staffLoggedIn');
+                window.location.href = '/';
             }
 
             // Check if already logged in this session

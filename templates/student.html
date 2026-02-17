@@ -163,6 +163,8 @@
                 <form id="regForm">
                     <input type="text" id="regName" placeholder="Full Name" required>
                     <input type="text" id="regRoll" placeholder="Roll Number" required>
+                    <input type="text" id="regNo" placeholder="Register Number" required>
+                    <input type="text" id="regClass" placeholder="Class & Section" required>
                     <input type="text" id="regDept" placeholder="Department" required>
                     <button type="submit" class="btn-primary" style="width:100%">Confirm Registration</button>
                 </form>
@@ -260,6 +262,10 @@
                 e.preventDefault();
                 const name = document.getElementById('regName').value;
                 const roll = document.getElementById('regRoll').value;
+                const regNo = document.getElementById('regNo').value;
+                const classSection = document.getElementById('regClass').value;
+                const dept = document.getElementById('regDept').value;
+
                 const submitBtn = e.target.querySelector('button');
                 const originalBtnText = submitBtn.innerText;
 
@@ -267,7 +273,7 @@
                     submitBtn.innerText = 'Registering...';
                     submitBtn.disabled = true;
 
-                    await EventManager.registerStudent(name, roll, currentEventId);
+                    await EventManager.registerStudent(name, roll, currentEventId, regNo, classSection, dept);
 
                     submitBtn.innerText = 'Redirecting to WhatsApp...';
                     submitBtn.style.background = '#25D366'; // WhatsApp Green
@@ -276,7 +282,11 @@
                     setTimeout(() => {
                         const whatsappNumber = "918056823617";
                         const eventTitle = document.getElementById('regEventTitle').innerText;
-                        const message = encodeURIComponent(`Hi, I am ${name} (Roll: ${roll}). I just registered for the event: ${eventTitle}.`);
+
+                        // Formatted message with new lines (cursor down)
+                        const messageText = `hi sir ,\nname: ${name}\nrollno: ${roll}\nregister number: ${regNo}\nclass and section: ${classSection}\ndepartment: ${dept}`;
+                        const message = encodeURIComponent(messageText);
+
                         window.location.href = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${message}`;
                     }, 800);
 
