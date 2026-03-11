@@ -1,9 +1,13 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, session, redirect, url_for
 import json
 import os
 from datetime import datetime, timedelta
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 
 app = Flask(__name__)
+app.secret_key = 'super_secret_key_college_events'
 
 DATA_FILE = 'data.json'
 
@@ -107,7 +111,8 @@ seed_data = {
              "timestamp": datetime.now().isoformat()
         }
     ],
-    "registrations": []
+    "registrations": [],
+    "students": []
 }
 
 def cleanup_old_data(data):
@@ -157,17 +162,107 @@ def save_data(data):
     with open(DATA_FILE, 'w') as f:
         json.dump(data, f, indent=4)
 
+def send_event_notification(event_title, event_date):
+    """Sends email notification to all registered students."""
+    data = load_data()
+    students = data.get('students', [])
+    
+    if not students:
+        print("No students registered for notifications.")
+        return
+
+    # SMTP Configuration (Placeholder - User needs to update these)
+    SMTP_SERVER = "smtp.gmail.com"
+    SMTP_PORT = 587
+    SENDER_EMAIL = "your-email@gmail.com"
+    SENDER_PASSWORD = "your-app-password" # Use App Password for Gmail
+
+    try:
+        # For demonstration purposes, we'll just log who we would send to if credentials are not configured
+        if SENDER_EMAIL == "your-email@gmail.com":
+            print(f"NOTIFICATION SIMULATION: New event '{event_title}' posted for {event_date}.")
+            print(f"Would send to: {[s.get('gmail') for s in students]}")
+            return
+
+        server = smtplib.SMTP(SMTP_SERVER, SMTP_PORT)
+        server.starttls()
+        server.login(SENDER_EMAIL, SENDER_PASSWORD)
+
+        for student in students:
+            email = student.get('gmail')
+            if not email: continue
+
+            msg = MIMEMultipart()
+            msg['From'] = SENDER_EMAIL
+            msg['To'] = email
+            msg['Subject'] = f"New Event: {event_title}"
+
+            body = f"Hello {student.get('name')},\n\nA new event has been posted: {event_title}\nDate: {event_date}\n\nCheck it out on the College Events portal!"
+            msg.attach(MIMEText(body, 'plain'))
+            
+            server.send_message(msg)
+        
+        server.quit()
+        print("Notifications sent successfully!")
+    except Exception as e:
+        print(f"Failed to send notifications: {e}")
+
 @app.route('/')
 def index():
     return render_template('index.html')
 
+@app.route('/login')
+def login_page():
+    return render_template('login.html')
+
+@app.route('/signup')
+def signup_page():
+    return render_template('signup.html')
+
 @app.route('/student')
 def student():
+    if 'user_id' not in session:
+        return redirect(url_for('login_page'))
     return render_template('student.html')
 
 @app.route('/staff')
 def staff():
     return render_template('staff.html')
+
+@app.route('/api/signup', methods=['POST'])
+def api_signup():
+    user_data = request.json
+    data = load_data()
+    
+    # Check if student already exists
+    if any(s['regNo'] == user_data['regNo'] for s in data.get('students', [])):
+        return jsonify({"status": "error", "message": "Student already registered"}), 400
+        
+    if 'students' not in data:
+        data['students'] = []
+        
+    data['students'].append(user_data)
+    save_data(data)
+    return jsonify({"status": "success", "message": "your account is created"}), 201
+
+@app.route('/api/login', methods=['POST'])
+def api_login():
+    credentials = request.json
+    data = load_data()
+    
+    user = next((s for s in data.get('students', []) if s['regNo'] == credentials['regNo'] and s['password'] == credentials['password']), None)
+    
+    if user:
+        session['user_id'] = user['regNo']
+        session['user_name'] = user['name']
+        return jsonify({"status": "success"}), 200
+    else:
+        return jsonify({"status": "error", "message": "Invalid Register Number or Password"}), 401
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('index'))
 
 @app.route('/api/events', methods=['GET'])
 def get_events():
@@ -182,6 +277,10 @@ def add_event():
     data = load_data()
     data['events'].append(new_event)
     save_data(data)
+    
+    # Send notifications
+    send_event_notification(new_event.get('title'), new_event.get('startDate') or new_event.get('date'))
+    
     return jsonify({"status": "success"}), 201
 
 @app.route('/api/register', methods=['POST'])
