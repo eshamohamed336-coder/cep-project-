@@ -219,8 +219,6 @@ def signup_page():
 
 @app.route('/student')
 def student():
-    if 'user_id' not in session:
-        return redirect(url_for('login_page'))
     return render_template('student.html')
 
 @app.route('/staff')

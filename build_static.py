@@ -25,6 +25,7 @@ def build_static():
         content = content.replace("window.location.href = '/'", "window.location.href = './index.html'")
         content = content.replace("window.location.href='/login'", "window.location.href='./login.html'")
         content = content.replace("window.location.href = '/student'", "window.location.href = './student.html'")
+        content = content.replace("window.location.href = '/login'", "window.location.href = './login.html'")
         
         with open(filename, 'w') as f:
             f.write(content)
