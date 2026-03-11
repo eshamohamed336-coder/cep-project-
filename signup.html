@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup | College Events</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./static/css/style.css">
+    <style>
+        .auth-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(circle at center, #1a0b2e 0%, #000 100%);
+            padding: 2rem;
+        }
+        .auth-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 2.5rem;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 550px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+        .auth-card h2 {
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            background: linear-gradient(135deg, #4cc9f0, #4361ee);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+        .full-width {
+            grid-column: span 2;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #ccc;
+            font-size: 0.9rem;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 0.8rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: white;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+        .form-group input:focus {
+            outline: none;
+            border-color: #f72585;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        .btn-auth {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #f72585, #7209b7);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+        .btn-auth:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(247, 37, 133, 0.3);
+        }
+        .auth-links {
+            margin-top: 1.5rem;
+            text-align: center;
+            color: #aaa;
+        }
+        .auth-links a {
+            color: #4cc9f0;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .success-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            text-align: center;
+        }
+        .success-overlay h3 {
+            font-size: 2.5rem;
+            color: #4cc9f0;
+            margin-bottom: 1rem;
+        }
+        .error-msg {
+            color: #ff4757;
+            text-align: center;
+            margin-bottom: 1rem;
+            display: none;
+            grid-column: span 2;
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <h2>Create New Account</h2>
+            <div id="errorMsg" class="error-msg"></div>
+            <form id="signupForm">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input type="text" id="name" required placeholder="Full Name">
+                    </div>
+                    <div class="form-group">
+                        <label>Register Number</label>
+                        <input type="text" id="regNo" required placeholder="Reg No">
+                    </div>
+                    <div class="form-group full-width">
+                        <label>Gmail</label>
+                        <input type="email" id="gmail" required placeholder="example@gmail.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Class</label>
+                        <input type="text" id="class" required placeholder="e.g. III Year">
+                    </div>
+                    <div class="form-group">
+                        <label>Department</label>
+                        <select id="department" required>
+                            <option value="" disabled selected>Select Dept</option>
+                            <option value="BCA">BCA</option>
+                            <option value="B.Sc IT">B.Sc IT</option>
+                            <option value="B.Sc CS">B.Sc CS</option>
+                            <option value="B.Com">B.Com</option>
+                            <option value="VisCom">VisCom</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="password" required placeholder="Password">
+                    </div>
+                    <div class="form-group">
+                        <label>Confirm Password</label>
+                        <input type="password" id="confirmPassword" required placeholder="Confirm Password">
+                    </div>
+                </div>
+                <button type="submit" class="btn-auth">Submit</button>
+            </form>
+            <div class="auth-links">
+                Already have an account? <br>
+                <a href="./login.html">Login Here</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="successOverlay" class="success-overlay">
+        <h3>your account is created</h3>
+        <p style="color: white; margin-bottom: 2rem;">Welcome to College Events!</p>
+        <button class="btn-auth" style="max-width: 200px;" onclick="window.location.href='/login'">Go to Login</button>
+    </div>
+
+    <script>
+        document.getElementById('signupForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = document.getElementById('name').value;
+            const regNo = document.getElementById('regNo').value;
+            const gmail = document.getElementById('gmail').value;
+            const className = document.getElementById('class').value;
+            const department = document.getElementById('department').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const errorMsg = document.getElementById('errorMsg');
+
+            if (password !== confirmPassword) {
+                errorMsg.textContent = 'Passwords do not match!';
+                errorMsg.style.display = 'block';
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/signup', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, regNo, gmail, class: className, department, password })
+                });
+                const result = await response.json();
+
+                if (response.ok) {
+                    document.getElementById('successOverlay').style.display = 'flex';
+                } else {
+                    errorMsg.textContent = result.message;
+                    errorMsg.style.display = 'block';
+                }
+            } catch (err) {
+                console.error('Signup failed:', err);
+                errorMsg.textContent = 'Something went wrong. Please try again.';
+                errorMsg.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>
