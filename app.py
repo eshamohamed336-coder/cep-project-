@@ -195,7 +195,7 @@ def send_event_notification(event_title, event_date):
             msg['To'] = email
             msg['Subject'] = f"New Event: {event_title}"
 
-            body = f"Hello {student.get('name')},\n\nA new event has been posted: {event_title}\nDate: {event_date}\n\nCheck it out on the College Events portal!"
+            body = f"Hello {student.get('name')},\n\nA new event has been posted: {event_title}\nDate: {event_date}\n\nCheck it out on the College Event Portal Symposium portal!"
             msg.attach(MIMEText(body, 'plain'))
             
             server.send_message(msg)
