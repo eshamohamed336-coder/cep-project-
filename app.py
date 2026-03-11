@@ -116,9 +116,9 @@ seed_data = {
 }
 
 def cleanup_old_data(data):
-    """Delete entries older than 2 weeks."""
+    """Delete registration entries older than 30 days. Events are kept permanently."""
     now = datetime.now()
-    two_weeks_ago = now - timedelta(days=30)
+    thirty_days_ago = now - timedelta(days=30)
     
     # Helper to parse timestamp
     def is_old(entry_timestamp):
@@ -131,15 +131,13 @@ def cleanup_old_data(data):
             # Ensure we are comparing naive datetimes (or at least consistent ones)
             if ts.tzinfo is not None:
                 ts = ts.replace(tzinfo=None)
-            return ts < two_weeks_ago
+            return ts < thirty_days_ago
         except Exception as e:
             print(f"Error parsing timestamp: {e}")
             return False
 
-    # Cleanup events
-    data['events'] = [e for e in data.get('events', []) if not is_old(e.get('timestamp'))]
-    
-    # Cleanup registrations
+    # Events are never auto-deleted
+    # Only cleanup old registrations
     data['registrations'] = [r for r in data.get('registrations', []) if not is_old(r.get('timestamp'))]
     
     return data
