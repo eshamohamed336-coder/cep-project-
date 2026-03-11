@@ -207,18 +207,13 @@
                 <a href="./index.html" style="color: #888; display: block; margin-top: 1.5rem; text-decoration: none; font-size: 0.9rem;">Back to Home</a>
             </div>
         </div>
-                <a href="./index.html"
-                    style="color: #888; display: block; margin-top: 1.5rem; text-decoration: none; font-size: 0.9rem;">Back
-                    to Home</a>
-            </div>
-        </div>
 
         <div id="staffContent">
             <nav class="navbar">
                 <div class="logo">College Event <span class="highlight">Portal Symposium</span> <span
                         style="font-size: 0.8rem; color: #aaa; margin-left: 10px;">STAFF PORTAL</span></div>
                 <ul class="nav-links">
-                    <li><a href="#" onclick="logout()">Logout</a></li>
+                    <li><a href="javascript:void(0)" onclick="logout()">Logout</a></li>
                 </ul>
             </nav>
 
@@ -512,7 +507,7 @@
 
             function logout() {
                 sessionStorage.removeItem('staffLoggedIn');
-                window.location.reload();
+                window.location.href = './index.html';
             }
 
             // Check if already logged in this session
