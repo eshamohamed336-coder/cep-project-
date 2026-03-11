@@ -2,7 +2,7 @@ import os
 import re
 
 def build_static():
-    files = ['index.html', 'login.html', 'signup.html', 'staff.html']
+    files = ['index.html', 'login.html', 'signup.html', 'staff.html', 'student.html']
     
     for filename in files:
         src = os.path.join('templates', filename)
