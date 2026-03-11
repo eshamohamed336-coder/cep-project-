@@ -281,6 +281,35 @@ def add_event():
     
     return jsonify({"status": "success"}), 201
 
+@app.route('/api/events/<event_id>', methods=['PUT'])
+def update_event(event_id):
+    updated_data = request.json
+    data = load_data()
+    
+    for i, event in enumerate(data.get('events', [])):
+        if event['id'] == event_id:
+            # Keep the same ID and timestamp if not provided
+            updated_data['id'] = event_id
+            if 'timestamp' not in updated_data:
+                updated_data['timestamp'] = event.get('timestamp')
+            data['events'][i] = updated_data
+            save_data(data)
+            return jsonify({"status": "success"}), 200
+            
+    return jsonify({"status": "error", "message": "Event not found"}), 404
+
+@app.route('/api/events/<event_id>', methods=['DELETE'])
+def delete_event(event_id):
+    data = load_data()
+    initial_count = len(data.get('events', []))
+    data['events'] = [e for e in data.get('events', []) if e['id'] != event_id]
+    
+    if len(data['events']) < initial_count:
+        save_data(data)
+        return jsonify({"status": "success"}), 200
+    else:
+        return jsonify({"status": "error", "message": "Event not found"}), 404
+
 @app.route('/api/register', methods=['POST'])
 def register_student():
     reg_info = request.json

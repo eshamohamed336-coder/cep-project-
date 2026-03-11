@@ -94,6 +94,64 @@ const EventManager = {
         return { status: "success" };
     },
 
+    // Update an existing event
+    async updateEvent(eventId, eventData) {
+        try {
+            const response = await fetch(`/api/events/${eventId}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(eventData)
+            });
+            if (response.ok) return { status: "success" };
+        } catch (error) {
+            console.error('Error updating event:', error);
+        }
+
+        // Fallback for LocalStorage
+        const data = JSON.parse(localStorage.getItem(this.DATA_KEY));
+        const index = data.events.findIndex(e => e.id === eventId);
+        if (index !== -1) {
+            data.events[index] = { ...eventData, id: eventId };
+            localStorage.setItem(this.DATA_KEY, JSON.stringify(data));
+            return { status: "success" };
+        }
+        return { status: "error" };
+    },
+
+    // Delete an event
+    async deleteEvent(eventId) {
+        try {
+            const response = await fetch(`/api/events/${eventId}`, {
+                method: 'DELETE'
+            });
+            if (response.ok) return { status: "success" };
+        } catch (error) {
+            console.error('Error deleting event:', error);
+        }
+
+        // Fallback for LocalStorage
+        const data = JSON.parse(localStorage.getItem(this.DATA_KEY));
+        data.events = data.events.filter(e => e.id !== eventId);
+        localStorage.setItem(this.DATA_KEY, JSON.stringify(data));
+        return { status: "success" };
+    },
+
+    // Staff Login via hardcoded password
+    async staffLogin(username, password) {
+        try {
+            // Wait briefly to simulate network request
+            await new Promise(r => setTimeout(r, 300));
+
+            if (password === "JMC EVENT") {
+                return { status: "success" };
+            } else {
+                return { status: "error", message: "Invalid Password." };
+            }
+        } catch (err) {
+            return { status: "error", message: "Something went wrong." };
+        }
+    },
+
     // Register Student
     async registerStudent(studentName, rollNo, eventId, regNo, classSection, department) {
         const regData = {
