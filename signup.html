@@ -211,18 +211,37 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ name, regNo, gmail, class: className, department, password })
                 });
-                const result = await response.json();
-
-                if (response.ok) {
-                    document.getElementById('successOverlay').style.display = 'flex';
+                
+                // If we get an HTML response instead of JSON (like a 404 page on GitHub Pages),
+                // it means the backend is not available.
+                const contentType = response.headers.get("content-type");
+                if (contentType && contentType.indexOf("application/json") !== -1) {
+                    const result = await response.json();
+                    if (response.ok) {
+                        document.getElementById('successOverlay').style.display = 'flex';
+                    } else {
+                        errorMsg.textContent = result.message;
+                        errorMsg.style.display = 'block';
+                    }
                 } else {
-                    errorMsg.textContent = result.message;
-                    errorMsg.style.display = 'block';
+                    throw new Error("Backend not available");
                 }
             } catch (err) {
-                console.error('Signup failed:', err);
-                errorMsg.textContent = 'Something went wrong. Please try again.';
-                errorMsg.style.display = 'block';
+                // FALLBACK FOR GITHUB PAGES (No Backend)
+                console.log('Signup fell back to LocalStorage (No Backend)');
+                
+                // Keep data in browser storage since there's no database
+                const existingStudents = JSON.parse(localStorage.getItem('cep_students') || '[]');
+                if (existingStudents.some(s => s.regNo === regNo)) {
+                    errorMsg.textContent = 'Student already registered';
+                    errorMsg.style.display = 'block';
+                    return;
+                }
+                
+                existingStudents.push({ name, regNo, gmail, class: className, department, password });
+                localStorage.setItem('cep_students', JSON.stringify(existingStudents));
+                
+                document.getElementById('successOverlay').style.display = 'flex';
             }
         });
     </script>
