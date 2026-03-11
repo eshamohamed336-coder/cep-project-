@@ -219,6 +219,8 @@ def signup_page():
 
 @app.route('/student')
 def student():
+    if 'user_id' not in session:
+        return redirect(url_for('login_page'))
     return render_template('student.html')
 
 @app.route('/staff')
@@ -230,9 +232,9 @@ def api_signup():
     user_data = request.json
     data = load_data()
     
-    # Check if student already exists
-    if any(s['regNo'] == user_data['regNo'] for s in data.get('students', [])):
-        return jsonify({"status": "error", "message": "Student already registered"}), 400
+    # Check if student already exists by Name
+    if any(s['name'] == user_data['name'] for s in data.get('students', [])):
+        return jsonify({"status": "error", "message": "Student already registered with this name"}), 400
         
     if 'students' not in data:
         data['students'] = []
@@ -246,10 +248,10 @@ def api_login():
     credentials = request.json
     data = load_data()
     
-    user = next((s for s in data.get('students', []) if s['regNo'] == credentials['regNo'] and s['password'] == credentials['password']), None)
+    user = next((s for s in data.get('students', []) if s['name'] == credentials['name'] and s['password'] == credentials['password']), None)
     
     if user:
-        session['user_id'] = user['regNo']
+        session['user_id'] = user['name']
         session['user_name'] = user['name']
         return jsonify({"status": "success"}), 200
     else:

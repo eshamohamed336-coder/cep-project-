@@ -102,8 +102,8 @@
             <div id="errorMsg" class="error-msg"></div>
             <form id="loginForm">
                 <div class="form-group">
-                    <label>Register Number</label>
-                    <input type="text" id="regNo" required placeholder="Enter Reg No">
+                    <label>Name</label>
+                    <input type="text" id="name" required placeholder="Enter Name">
                 </div>
                 <div class="form-group">
                     <label>Password</label>
@@ -121,7 +121,7 @@
     <script>
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-            const regNo = document.getElementById('regNo').value;
+            const name = document.getElementById('name').value;
             const password = document.getElementById('password').value;
             const errorMsg = document.getElementById('errorMsg');
 
@@ -129,7 +129,7 @@
                 const response = await fetch('/api/login', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ regNo, password })
+                    body: JSON.stringify({ name, password })
                 });
 
                 const contentType = response.headers.get("content-type");
@@ -149,14 +149,14 @@
                 console.log('Login fell back to LocalStorage (No Backend)');
                 
                 const existingStudents = JSON.parse(localStorage.getItem('cep_students') || '[]');
-                const student = existingStudents.find(s => s.regNo === regNo && s.password === password);
+                const student = existingStudents.find(s => s.name === name && s.password === password);
                 
                 if (student) {
                     // Store student in sessionStorage to simulate login session
                     sessionStorage.setItem('studentUser', JSON.stringify(student));
                     window.location.href = '/student';
                 } else {
-                    errorMsg.textContent = 'Invalid Register Number or Password';
+                    errorMsg.textContent = 'Invalid Name or Password';
                     errorMsg.style.display = 'block';
                 }
             }

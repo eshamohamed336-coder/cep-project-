@@ -132,14 +132,6 @@
                         <input type="text" id="name" required placeholder="Full Name">
                     </div>
                     <div class="form-group">
-                        <label>Register Number</label>
-                        <input type="text" id="regNo" required placeholder="Reg No">
-                    </div>
-                    <div class="form-group full-width">
-                        <label>Gmail</label>
-                        <input type="email" id="gmail" required placeholder="example@gmail.com">
-                    </div>
-                    <div class="form-group">
                         <label>Class</label>
                         <input type="text" id="class" required placeholder="e.g. III Year">
                     </div>
@@ -183,8 +175,6 @@
         document.getElementById('signupForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const name = document.getElementById('name').value;
-            const regNo = document.getElementById('regNo').value;
-            const gmail = document.getElementById('gmail').value;
             const className = document.getElementById('class').value;
             const department = document.getElementById('department').value;
             const password = document.getElementById('password').value;
@@ -209,7 +199,7 @@
                 const response = await fetch('/api/signup', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ name, regNo, gmail, class: className, department, password })
+                    body: JSON.stringify({ name, class: className, department, password })
                 });
                 
                 // If we get an HTML response instead of JSON (like a 404 page on GitHub Pages),
@@ -232,13 +222,13 @@
                 
                 // Keep data in browser storage since there's no database
                 const existingStudents = JSON.parse(localStorage.getItem('cep_students') || '[]');
-                if (existingStudents.some(s => s.regNo === regNo)) {
-                    errorMsg.textContent = 'Student already registered';
+                if (existingStudents.some(s => s.name === name)) {
+                    errorMsg.textContent = 'Student already registered with this name';
                     errorMsg.style.display = 'block';
                     return;
                 }
                 
-                existingStudents.push({ name, regNo, gmail, class: className, department, password });
+                existingStudents.push({ name, class: className, department, password });
                 localStorage.setItem('cep_students', JSON.stringify(existingStudents));
                 
                 document.getElementById('successOverlay').style.display = 'flex';
