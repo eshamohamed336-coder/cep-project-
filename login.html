@@ -131,18 +131,34 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ regNo, password })
                 });
-                const result = await response.json();
 
-                if (response.ok) {
-                    window.location.href = '/student';
+                const contentType = response.headers.get("content-type");
+                if (contentType && contentType.indexOf("application/json") !== -1) {
+                    const result = await response.json();
+                    if (response.ok) {
+                        window.location.href = './student.html';
+                    } else {
+                        errorMsg.textContent = result.message;
+                        errorMsg.style.display = 'block';
+                    }
                 } else {
-                    errorMsg.textContent = result.message;
-                    errorMsg.style.display = 'block';
+                    throw new Error("Backend not available");
                 }
             } catch (err) {
-                console.error('Login failed:', err);
-                errorMsg.textContent = 'Something went wrong. Please try again.';
-                errorMsg.style.display = 'block';
+                // FALLBACK FOR GITHUB PAGES (No Backend)
+                console.log('Login fell back to LocalStorage (No Backend)');
+                
+                const existingStudents = JSON.parse(localStorage.getItem('cep_students') || '[]');
+                const student = existingStudents.find(s => s.regNo === regNo && s.password === password);
+                
+                if (student) {
+                    // Store student in sessionStorage to simulate login session
+                    sessionStorage.setItem('studentUser', JSON.stringify(student));
+                    window.location.href = './student.html';
+                } else {
+                    errorMsg.textContent = 'Invalid Register Number or Password';
+                    errorMsg.style.display = 'block';
+                }
             }
         });
     </script>

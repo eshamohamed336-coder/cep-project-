@@ -108,7 +108,7 @@
     <body>
         <nav class="navbar">
             <div class="logo">College <span class="highlight">Events</span> <span
-                    style="font-size:0.8rem; color:#888;">STUDENT</span></div>
+                    style="font-size:0.8rem; color:#888;">STUDENT</span> <span id="studentNameDisplay" style="margin-left: 10px; font-size: 0.9rem; color: #4cc9f0;"></span></div>
             <ul class="nav-links">
                 <li><a href="#events">Events</a></li>
                 <li><a href="/">Logout</a></li>
@@ -178,6 +178,17 @@
             const filterBtns = document.querySelectorAll('.filter-btn');
             let currentCategory = 'all';
             let currentDept = 'BCA';
+
+            // Static Session Check for GitHub Pages
+            const studentUser = JSON.parse(sessionStorage.getItem('studentUser'));
+            if (studentUser) {
+                document.getElementById('studentNameDisplay').innerText = `| Welcome, ${studentUser.name}`;
+                // Pre-fill reg form
+                document.getElementById('regName').value = studentUser.name;
+                document.getElementById('regNo').value = studentUser.regNo;
+                document.getElementById('regDept').value = studentUser.department;
+                document.getElementById('regClass').value = studentUser.class || '';
+            }
 
             // Initial Load
             async function renderEvents() {

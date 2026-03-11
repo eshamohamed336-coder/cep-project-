@@ -20,9 +20,11 @@ def build_static():
         content = content.replace('href="/login"', 'href="./login.html"')
         content = content.replace('href="/staff"', 'href="./staff.html"')
         content = content.replace('href="/signup"', 'href="./signup.html"')
+        content = content.replace('href="/student"', 'href="./student.html"')
         content = content.replace('href="/"', 'href="./index.html"')
         content = content.replace("window.location.href = '/'", "window.location.href = './index.html'")
         content = content.replace("window.location.href='/login'", "window.location.href='./login.html'")
+        content = content.replace("window.location.href = '/student'", "window.location.href = './student.html'")
         
         with open(filename, 'w') as f:
             f.write(content)
