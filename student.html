@@ -146,6 +146,7 @@
                     <button class="filter-btn active" data-filter="all">All</button>
                     <button class="filter-btn" data-filter="technical">Technical</button>
                     <button class="filter-btn" data-filter="non-technical">Non-Technical</button>
+                    <button class="filter-btn" data-filter="both">Both</button>
                 </div>
             </div>
 
@@ -195,7 +196,17 @@
                 grid.innerHTML = '';
 
                 const filtered = events.filter(e => {
-                    const catMatch = currentCategory === 'all' || e.category === currentCategory;
+                    let catMatch = false;
+                    if (currentCategory === 'all') {
+                        catMatch = true;
+                    } else if (currentCategory === 'technical') {
+                        catMatch = e.category === 'technical' || e.category === 'both';
+                    } else if (currentCategory === 'non-technical') {
+                        catMatch = e.category === 'non-technical' || e.category === 'both';
+                    } else if (currentCategory === 'both') {
+                        catMatch = e.category === 'both';
+                    }
+
                     const deptMatch = currentDept === 'all' || e.department === currentDept || e.department === 'All';
                     return catMatch && deptMatch;
                 });
